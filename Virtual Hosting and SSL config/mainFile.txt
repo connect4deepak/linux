@@ -1,0 +1,24 @@
+https://www.digitalocean.com/community/tutorials/how-to-set-up-multiple-ssl-certificates-on-one-ip-with-apache-on-ubuntu-12-04
+
+apt-get update
+
+apt-get install apache2 -y
+
+Generate the ssl certificate (check the file1 for conf)
+
+cd /etc/apache2/sites-available
+
+vi pingsmart.tk.conf (check the file2 for conf)
+
+vi examready.tk.conf (check the file2 for conf)
+
+vi /etc/ports.conf
+	NameVirtualHost *:443
+
+a2enmod ssl
+
+a2ensite pingsmart.tk.conf 
+a2ensite examready.tk.conf
+
+service apache2 restart
+

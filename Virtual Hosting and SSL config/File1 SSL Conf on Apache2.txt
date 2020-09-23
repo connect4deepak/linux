@@ -1,0 +1,7 @@
+git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+cd /opt/letencrypt
+./letsencrypt-auto certonly --standalone -d pingsmart.tk -d www.pingsmart.tk
+
+cd /etc/letsencrypt/live/
+certificate = fullchain.pem
+Key = privkey.pem

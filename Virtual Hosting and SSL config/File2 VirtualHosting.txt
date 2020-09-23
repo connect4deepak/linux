@@ -1,0 +1,29 @@
+/etc/apache2/sites-available/pingsmart.tk.conf
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@pingsmart.tk
+        ServerName pingsmart.tk
+#        DocumentRoot /var/www/html/webserver/pingsmart.tk/
+        Redirect permanent / https://pingsmart.tk/
+
+</VirtualHost>
+
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+
+        ServerAdmin webmaster@pingsmart.tk
+        ServerName pingsmart.tk
+	ServerAlias www.pingsmart.tk
+        DocumentRoot /var/www/html/webserver/pingsmart.tk/
+
+        SSLEngine on
+
+        SSLCertificateFile /etc/letsencrypt/live/pingsmart.tk/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/pingsmart.tk/privkey.pem
+</VirtualHost>
+
+</IfModule>
+
+
+
