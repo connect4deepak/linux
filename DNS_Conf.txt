@@ -1,0 +1,85 @@
+https://www.youtube.com/watch?v=xaDIz1BAchA
+
+Package Required: bind*
+Version:
+Daemon: named
+Config Files: /etc/named.conf
+Default zone File Location: /var/named/
+Port Number: 53   
+
+
+
+   #  yum install bind bind-utils -y
+   #  vi /etc/named.conf 
+   #  systemctl start named
+   #  systemctl enable named
+   #  systemctl status named
+   #  firewall-cmd --permanent --add-service=dns
+   #  firewall-cmd --permanent --add-port=53/tcp
+   #  firewall-cmd --permanent --add-port=53/udp
+   #  firewall-cmd --reload 
+   #  firewall-cmd --list-all
+   #  vi /etc/named.conf 
+		listen-on port 53 { 127.0.0.1; 192.168.1.100; };
+		allow-query     { localhost; any; };
+
+
+		
+		zone "example.com" IN {
+		type master;
+		file "forward.example.com";
+		allow-update { none; };
+		};
+
+		zone "1.168.192.in-addr.arpa" IN {
+		type master;
+		file "reverse.example.com";
+		allow-update { none; };
+		};
+
+
+   #  cd /var/named/
+   #  cp named.localhost forward.example.com
+   #  vi forward.example.com 
+		$TTL 1D
+		@	IN SOA	serverx.example.com. root.example.com. (
+					0	; serial
+					1D	; refresh
+					1H	; retry
+					1W	; expire
+					3H )	; minimum
+
+		@		IN	NS	serverx.example.com.
+		@		IN	A	192.168.1.100
+		serverx		IN	A	192.168.1.100
+		desktopx	IN	A	192.168.1.101
+
+   #  cp forward.example.com reverse.example.com
+   #  vi reverse.example.com 
+		$TTL 1D
+		@	IN SOA	serverx.example.com. root.example.com. (
+					0	; serial
+					1D	; refresh
+					1H	; retry
+					1W	; expire
+					3H )	; minimum
+
+		@		IN	NS	serverx.example.com.
+		@		IN	A	192.168.1.100
+		serverx		IN	A	192.168.1.100
+		desktopx	IN	A	192.168.1.101
+		100		IN	PTR	serverx.example.com.
+		101		IN	PTR	desktopx.example.com.
+
+   #  chown root:named forward.example.com 
+   #  chown root:named reverse.example.com 
+   #  named-checkconf -z /etc/named.conf 
+   #  systemctl restart named
+   #  ping serverx
+   #  nslookup serverx
+
+
+########################################################################
+
+  Configure the hostname and nmcli with the dns ip that we have just configured
+  # vi /etc/resolv.conf

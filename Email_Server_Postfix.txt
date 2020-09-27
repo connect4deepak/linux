@@ -1,0 +1,23 @@
+# yum install postfix mailx -y
+# vi /etc/postfix/main.cf 
+94-> myhostname = serverx.example.com, 
+102-> mydomain = example.com, 
+117-> myorigin = $myhostname, 
+132-> inet_interfaces = all, 
+183-> mydestination = $myhostname, localhost.$mydomain, localhost, 
+283-> mynetworks = 10.10.10.0/24, 
+445-> mail_spool_directory = /var/spool/mail
+
+# firewall-cmd --permanent --add-service=smtp
+
+# firewall-cmd --reload
+
+# systemctl enable --now postfix.service
+
+# mail sgoswami@serverx.example.com
+
+
+# mailq
+
+
+# mail
